@@ -48,6 +48,16 @@ public class OddSketch<K extends Hash> {
     }
 
     /**
+     * Estimates the set size of this Odd sketch.
+     * Uses the Poisson Approximation by default to be consistent with the Jaccard Index estimation
+     *
+     * @return Returns the estimated set size
+     */
+    public int estimateSetSize() {
+        return this.estimateSetSizeMarkovApproximation();
+    }
+
+    /**
      * Estimates the set size for this Odd sketch based on the Markov Chain Model:
      *
      * <math xmlns="http://www.w3.org/1998/Math/MathML"><mover><mi>m</mi><mo>^</mo></mover><mo>=</mo><mfrac><mrow><mi>ln</mi><mfenced><mrow><mn>1</mn><mo>-</mo><mn>2</mn><mi>z</mi><mo>/</mo><mi>n</mi></mrow></mfenced></mrow><mrow><mi>ln</mi><mfenced><mrow><mn>1</mn><mo>-</mo><mn>2</mn><mo>/</mo><mi>n</mi></mrow></mfenced></mrow></mfrac></math>
@@ -61,7 +71,7 @@ public class OddSketch<K extends Hash> {
      *
      * @return The set size estimated by the Odd sketch using the Markov Chain Model
      */
-    public int estimateSetSize() {
+    protected int estimateSetSizeMarkovApproximation() {
         int z = sketch.cardinality();
 
         LOG.debug(String.format("Sketch cardinality is %d", z));
@@ -72,6 +82,34 @@ public class OddSketch<K extends Hash> {
         double sizeEstimation = numerator / denominator;
 
         LOG.debug(String.format("When computing set size, the numerator is %f, denominator is %f and estimation is %f", numerator, denominator, sizeEstimation));
+
+        return (int) Math.round(sizeEstimation);
+    }
+
+    /**
+     * Estimates the set size for this Odd sketch based on the Poisson approximation:
+     *
+     * <math xmlns="http://www.w3.org/1998/Math/MathML"><mover><mi>m</mi><mo>^</mo></mover><mo>=</mo><mfrac><mrow><mi>ln</mi><mfenced><mrow><mn>1</mn><mo>-</mo><mn>2</mn><mi>z</mi><mo>/</mo><mi>n</mi></mrow></mfenced></mrow><mrow><mi>ln</mi><mfenced><mrow><mn>1</mn><mo>-</mo><mn>2</mn><mo>/</mo><mi>n</mi></mrow></mfenced></mrow></mfrac></math>
+     * <br>
+     * where <math><mi>m</mi></math> is the size of the set,
+     * <math><mi>z</mi></math> is the number of odd bins in the sketch,
+     * and <math><mi>n</mi></math> is the total number of bins in the sketch
+     * <br><br>
+     *
+     * Refer to the <a href="http://www.itu.dk/people/pagh/papers/oddsketch.pdf">OddSketch paper</a> for details.
+     *
+     * @return The set size estimated by the Odd sketch using the Markov Chain Model
+     */
+    protected int estimateSetSizePoissonApproximation() {
+        int z = sketch.cardinality();
+
+        LOG.debug(String.format("Sketch cardinality is %d", z));
+
+        double ln = Math.log(1.0 - (2.0 * z / size));
+
+        double sizeEstimation = -size * ln / 2;
+
+        LOG.debug(String.format("Set size estimation is %f", sizeEstimation));
 
         return (int) Math.round(sizeEstimation);
     }
