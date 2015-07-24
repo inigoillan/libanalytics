@@ -39,6 +39,7 @@ public class OddSketchTest {
     public void ComputeJaccardIndex_SameOddSketch_Returns1() {
         // Arrange
         OddSketch<Hash> sketch = buildOddSketch(10);
+        sketch.addHashed(hash(1));
 
         // Act
         double jaccardIndex = sketch.computeJaccardIndex(sketch);
