@@ -62,6 +62,21 @@ public class OddSketchTest {
     }
 
 
+    @Test
+    public void ComputeJaccardIndex_VerySimilarOddSketches_ReturnsRatio() {
+        // Arrange
+        OddSketch<Hash> sketch1 = buildOddSketch(10);
+        OddSketch<Hash> sketch2 = buildOddSketch(10);
+
+        // Act
+        double jaccardIndex = getJaccardIndexFor(sketch1, new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+                                                sketch2, new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 11});
+
+        // Assert
+        assertEquals(0.9, jaccardIndex, 0.05);
+    }
+
+
     private double getJaccardIndexFor(OddSketch<Hash> sketch1, int[] elements1,
                                     OddSketch<Hash> sketch2, int[] elements2) {
         for (int element : elements1) {

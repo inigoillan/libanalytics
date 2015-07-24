@@ -12,7 +12,7 @@ import java.util.BitSet;
 /**
  * For details, please refer to the <a href="http://www.itu.dk/people/pagh/papers/oddsketch.pdf">OddSketch paper</a>
  *
- * @param <E> The type of elements this sketch accepts
+ * @param <K> The type of {@link Hash} elements this sketch accepts
  */
 public class OddSketch<K extends Hash> {
     private static final Logger LOG = Logger.getLogger(OddSketch.class);
@@ -84,23 +84,28 @@ public class OddSketch<K extends Hash> {
      */
     public double computeJaccardIndex(@Nonnull OddSketch<Hash> other) {
         Preconditions.checkArgument(other.getSize() == this.getSize());
+        Preconditions.checkArgument(other.elementsAdded == this.elementsAdded);
 
-        BitSet sketch = (BitSet) this.getSketch().clone();
-
-        sketch.xor(other.getSketch());
-
-        int symmetricDiffSize = sketch.cardinality();
+        int symmetricDifference = computeSymmetricDifference(other);
 
         int k = elementsAdded;
         int n = this.getSize();
 
-        double inner = 1.0 - (2.0 * symmetricDiffSize / n);
+        double inner = 1.0 - (2.0 * symmetricDifference / n);
 
-        if (inner <= 0)
+        if (inner <= 0.0)
             return 0.0;
 
         double ln = Math.log(inner);
-        return 1.0 + (n / 4.0 * k) * ln;
+        return 1.0 + (n / (4.0 * k)) * ln;
+    }
+
+    protected int computeSymmetricDifference(@Nonnull OddSketch<Hash> other) {
+        BitSet sketch = (BitSet) this.getSketch().clone();
+
+        sketch.xor(other.getSketch());
+
+        return sketch.cardinality();
     }
 
     protected int getBucket(Hash hash) {
