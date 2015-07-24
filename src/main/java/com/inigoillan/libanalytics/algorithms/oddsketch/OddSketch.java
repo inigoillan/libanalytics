@@ -89,7 +89,7 @@ public class OddSketch<K extends Hash> {
     /**
      * Estimates the set size for this Odd sketch based on the Poisson approximation:
      *
-     * <math xmlns="http://www.w3.org/1998/Math/MathML"><mover><mi>m</mi><mo>^</mo></mover><mo>=</mo><mfrac><mrow><mi>ln</mi><mfenced><mrow><mn>1</mn><mo>-</mo><mn>2</mn><mi>z</mi><mo>/</mo><mi>n</mi></mrow></mfenced></mrow><mrow><mi>ln</mi><mfenced><mrow><mn>1</mn><mo>-</mo><mn>2</mn><mo>/</mo><mi>n</mi></mrow></mfenced></mrow></mfrac></math>
+     * <math xmlns="http://www.w3.org/1998/Math/MathML"><mover><mi>m</mi><mo>^</mo></mover><mo>=</mo><mo>-</mo><mfrac><mi>n</mi><mn>2</mn></mfrac><mi>ln</mi><mfenced><mrow><mn>1</mn><mo>-</mo><mn>2</mn><mi>z</mi><mo>/</mo><mi>n</mi></mrow></mfenced></math>
      * <br>
      * where <math><mi>m</mi></math> is the size of the set,
      * <math><mi>z</mi></math> is the number of odd bins in the sketch,
