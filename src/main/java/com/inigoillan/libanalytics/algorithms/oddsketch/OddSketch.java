@@ -93,7 +93,7 @@ public class OddSketch<K extends Hash> {
      * <br>
      * where <math><mi>m</mi></math> is the size of the set,
      * <math><mi>z</mi></math> is the number of odd bins in the sketch,
-     * and <math><mi>n</mi></math> is the total number of bins in the sketch
+     * and <math><mi>n</mi></math> is the number of bins in the sketch
      * <br><br>
      *
      * Refer to the <a href="http://www.itu.dk/people/pagh/papers/oddsketch.pdf">OddSketch paper</a> for details.
@@ -115,7 +115,17 @@ public class OddSketch<K extends Hash> {
     }
 
     /**
+     * Estimates the Jaccard Index for this Odd sketch:
      *
+     * <math xmlns="http://www.w3.org/1998/Math/MathML"><mover><mi>J</mi><mo>^</mo></mover><mo>=</mo><mn>1</mn><mo>+</mo><mstyle displaystyle="false"><mfrac><mi>n</mi><mrow><mn>4</mn><mi>k</mi></mrow></mfrac></mstyle><mi>ln</mi><mfenced><mrow><mn>1</mn><mo>-</mo><mstyle displaystyle="false"><mfrac><mrow><mn>2</mn><mfenced open="|" close="|"><mrow><mi>o</mi><mi>d</mi><mi>d</mi><mo>(</mo><msub><mi>S</mi><mn>1</mn></msub><mo>)</mo><mo>&#8710;</mo><mi>o</mi><mi>d</mi><mi>d</mi><mo>(</mo><msub><mi>S</mi><mn>2</mn></msub><mo>)</mo></mrow></mfenced></mrow><mi>n</mi></mfrac></mstyle></mrow></mfenced><mspace linebreak="newline"/></math>
+     * <br>
+     * where <math><mi>J</mi></math> is the estimated Jaccard Index,
+     * <math><mi>k</mi></math> is the number of elements added to the sketch,
+     * <math><mfenced open="|" close="|"><mrow><mi>o</mi><mi>d</mi><mi>d</mi><mo>(</mo><msub><mi>S</mi><mn>1</mn></msub><mo>)</mo><mo>&#8710;</mo><mi>o</mi><mi>d</mi><mi>d</mi><mo>(</mo><msub><mi>S</mi><mn>2</mn></msub><mo>)</mo></mrow></mfenced><mspace linebreak="newline"/></math> is the symmetric difference (number of 1's in the xor-ed sketch)
+     * and <math><mi>n</mi></math> is the number of bins in the sketch
+     * <br><br>
+     *
+     * Refer to the <a href="http://www.itu.dk/people/pagh/papers/oddsketch.pdf">OddSketch paper</a> for details.
      *
      * @param other
      * @return
