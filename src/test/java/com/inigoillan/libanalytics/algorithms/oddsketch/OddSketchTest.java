@@ -49,6 +49,19 @@ public class OddSketchTest {
     }
 
     @Test
+    public void ComputeJaccardIndex_NoElementsAdded_Returns1() {
+        // Arrange
+        OddSketch<Hash> sketch1 = buildOddSketch(10);
+        OddSketch<Hash> sketch2 = buildOddSketch(10);
+
+        // Act
+        double jaccardIndex = sketch1.computeJaccardIndex(sketch2);
+
+        // Assert
+        assertEquals(1.0, jaccardIndex, 0.0);
+    }
+
+    @Test
     public void ComputeJaccardIndex_DifferentOddSketch_Returns0() {
         // Arrange
         OddSketch<Hash> sketch1 = buildOddSketch(10);

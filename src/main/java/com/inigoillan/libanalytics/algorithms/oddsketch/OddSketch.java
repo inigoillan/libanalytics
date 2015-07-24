@@ -86,6 +86,9 @@ public class OddSketch<K extends Hash> {
         Preconditions.checkArgument(other.getSize() == this.getSize());
         Preconditions.checkArgument(other.elementsAdded == this.elementsAdded);
 
+        if (this.elementsAdded == 0)
+            return 1.0;
+
         int symmetricDifference = computeSymmetricDifference(other);
 
         int k = elementsAdded;
