@@ -42,7 +42,7 @@ public class OddSketchTest {
         sketch.addHashed(hash(1));
 
         // Act
-        double jaccardIndex = sketch.computeJaccardIndex(sketch);
+        double jaccardIndex = sketch.estimateJaccardIndex(sketch);
 
         // Assert
         assertEquals(1.0, jaccardIndex, 0.0);
@@ -55,7 +55,7 @@ public class OddSketchTest {
         OddSketch<Hash> sketch2 = buildOddSketch(10);
 
         // Act
-        double jaccardIndex = sketch1.computeJaccardIndex(sketch2);
+        double jaccardIndex = sketch1.estimateJaccardIndex(sketch2);
 
         // Assert
         assertEquals(1.0, jaccardIndex, 0.0);
@@ -101,7 +101,7 @@ public class OddSketchTest {
             sketch2.addHashed(hash(element));
         }
 
-        return sketch1.computeJaccardIndex(sketch2);
+        return sketch1.estimateJaccardIndex(sketch2);
     }
 
 

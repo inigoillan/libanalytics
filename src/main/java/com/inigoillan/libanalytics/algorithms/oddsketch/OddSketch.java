@@ -120,7 +120,7 @@ public class OddSketch<K extends Hash> {
      * @param other
      * @return
      */
-    public double computeJaccardIndex(@Nonnull OddSketch<Hash> other) {
+    public double estimateJaccardIndex(@Nonnull OddSketch<Hash> other) {
         Preconditions.checkArgument(other.getSize() == this.getSize());
         Preconditions.checkArgument(other.elementsAdded == this.elementsAdded);
 
