@@ -26,9 +26,7 @@ public class GenericOddSketchTest {
     }
 
     private GenericOddSketch<Object, Hash> buildOddSketch(int size, Hasher hasher) {
-        GenericOddSketch<Object, Hash> sketch = mock(GenericOddSketch.class, CALLS_REAL_METHODS);
-        sketch.setSize(size);
-        sketch.setHasher(hasher);
+        GenericOddSketch<Object, Hash> sketch = new GenericOddSketch<>(size, hasher);
 
         return sketch;
     }
