@@ -1,6 +1,5 @@
 package com.inigoillan.libanalytics.algorithms.oddsketch;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.inigoillan.libanalytics.algorithms.hashers.Hash;
 import org.apache.log4j.Logger;
@@ -29,12 +28,14 @@ public class OddSketch<K extends Hash> {
      * @param size The size of the sketch
      */
     public OddSketch(int size) {
-        Preconditions.checkArgument(size > 0);
+        Preconditions.checkArgument(size >= 0);
 
-        sketch = new BitSet(size);
+        this.setSize(size);
+
+        BitSet sketch = new BitSet(size);
         sketch.clear();
 
-        this.size = size;
+        this.setSketch(sketch);
     }
 
     /**
@@ -163,11 +164,16 @@ public class OddSketch<K extends Hash> {
         return hash.mod(size);
     }
 
-    protected void xorIthBit(int i) {
-        Preconditions.checkArgument(i >= 0, "The index needs to be positive");
-        Preconditions.checkArgument(i < size, "Index has to be in the bounds set in the size parameter");
+    /**
+     * Flips (XOR) the bit in the ith position of the sketch
+     *
+     * @param index The posistion in the sketch to be flipped
+     */
+    protected void xorIthBit(int index) {
+        Preconditions.checkArgument(index >= 0, "The index needs to be positive");
+        Preconditions.checkArgument(index < size, "Index has to be in the bounds set in the size parameter");
 
-        sketch.flip(i);
+        sketch.flip(index);
     }
 
 
@@ -175,16 +181,24 @@ public class OddSketch<K extends Hash> {
         return size;
     }
 
-    @VisibleForTesting
-    public void setSize(int size) {
+    /**
+     * Sets the size of the sketch. Take into account, you should instantiate a new sketch with the
+     * {@link #setSketch(BitSet)} method in case the new size is bigger than the old one.
+     * <br>
+     * Tipically, you would use this method in case you are building a (de)serialization mechanism for this class
+     *
+     * @param size New size of the sketch
+     */
+    protected void setSize(int size) {
         this.size = size;
-
-        sketch = new BitSet(size);
-        sketch.clear();
     }
 
 
     protected BitSet getSketch() {
         return this.sketch;
+    }
+
+    protected void setSketch(BitSet sketch) {
+        this.sketch = sketch;
     }
 }

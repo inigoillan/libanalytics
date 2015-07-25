@@ -118,8 +118,7 @@ public class OddSketchTest {
     }
 
     private OddSketch<Hash> buildOddSketch(int size) {
-        OddSketch<Hash> sketch = mock(OddSketch.class, CALLS_REAL_METHODS);
-        sketch.setSize(size);
+        OddSketch<Hash> sketch = new OddSketch<>(size);
 
         return sketch;
     }
