@@ -230,7 +230,7 @@ public class OddSketch<K extends Hash> {
      *
      * @param sketch The representation of the underlying sketch
      */
-    protected void setSketch(BitSet sketch) {
+    protected void setSketch(@Nonnull BitSet sketch) {
         this.sketch = sketch;
     }
 }
