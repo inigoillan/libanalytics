@@ -177,6 +177,11 @@ public class OddSketch<K extends Hash> {
     }
 
 
+    /**
+     * Gets the size of the sketch.
+     *
+     * @return The size of the sketch
+     */
     protected int getSize() {
         return size;
     }
@@ -193,11 +198,22 @@ public class OddSketch<K extends Hash> {
         this.size = size;
     }
 
-
+    /**
+     * Gets the sketch in the form of a {@link BitSet}
+     *
+     * @return The sketch representation
+     */
     protected BitSet getSketch() {
         return this.sketch;
     }
 
+    /**
+     * Sets the underlying sketch
+     * <br>
+     * Tipically, you would use this method in case you are building a (de)serialization mechanism for this class
+     *
+     * @param sketch The representation of the underlying sketch
+     */
     protected void setSketch(BitSet sketch) {
         this.sketch = sketch;
     }
