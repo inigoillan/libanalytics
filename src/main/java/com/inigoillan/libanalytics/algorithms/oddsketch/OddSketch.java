@@ -152,6 +152,22 @@ public class OddSketch<K extends Hash> {
         return 1.0 + (n / (4.0 * k)) * ln;
     }
 
+    /**
+     * The symmetric difference of two odd sketches denoted by
+     * <math xmlns="http://www.w3.org/1998/Math/MathML"><mo>&#8710;</mo></math> or
+     * <math xmlns="http://www.w3.org/1998/Math/MathML"><mo>&#8853;</mo></math>
+     * symbols, is the operation resulting of unifying the two sets and subtracting the elements in the intersection.
+     * <br><br>
+     * So if you have sets
+     * <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>S</mi><mn>1</mn></msub><mo>=</mo><mfenced open="{" close="}"><mrow><mn>1</mn><mo>,</mo><mo>&#160;</mo><mn>2</mn><mo>,</mo><mo>&#160;</mo><mn>3</mn><mo>,</mo><mo>&#160;</mo><mn>4</mn></mrow></mfenced></math>
+     * and
+     * <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>S</mi><mn>2</mn></msub><mo>=</mo><mfenced open="{" close="}"><mrow><mn>3</mn><mo>,</mo><mo>&#160;</mo><mn>4</mn><mo>,</mo><mo>&#160;</mo><mn>5</mn><mo>,</mo><mo>&#160;</mo><mn>6</mn></mrow></mfenced></math>
+     * the symmetric difference is going to be the set
+     * <math xmlns="http://www.w3.org/1998/Math/MathML"><mi>S</mi><mo>=</mo><mfenced open="{" close="}"><mrow><mn>1</mn><mo>,</mo><mo>&#160;</mo><mn>2</mn><mo>,</mo><mo>&#160;</mo><mn>5</mn><mo>,</mo><mo>&#160;</mo><mn>6</mn></mrow></mfenced></math>
+     *
+     * @param other
+     * @return
+     */
     protected int computeSymmetricDifference(@Nonnull OddSketch<Hash> other) {
         BitSet sketch = (BitSet) this.getSketch().clone();
 
