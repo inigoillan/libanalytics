@@ -1,6 +1,5 @@
 package com.inigoillan.libanalytics.algorithms.oddsketch;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.inigoillan.libanalytics.algorithms.hashers.Hash;
 import com.inigoillan.libanalytics.algorithms.hashers.Hasher;
 
@@ -42,8 +41,7 @@ public class GenericOddSketch<E, K extends Hash> extends OddSketch<K> {
         return this.hasher;
     }
 
-    @VisibleForTesting
-    public void setHasher(@Nonnull Hasher<E, K> hasher) {
+    protected void setHasher(@Nonnull Hasher<E, K> hasher) {
         this.hasher = hasher;
     }
 }
