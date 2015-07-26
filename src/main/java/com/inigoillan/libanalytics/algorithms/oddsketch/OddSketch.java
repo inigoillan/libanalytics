@@ -1,11 +1,15 @@
 package com.inigoillan.libanalytics.algorithms.oddsketch;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Throwables;
+import com.inigoillan.libanalytics.algorithms.Mergeable;
 import com.inigoillan.libanalytics.algorithms.hashers.Hash;
 import org.apache.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import java.util.BitSet;
+import java.util.Objects;
 
 
 /**
@@ -13,7 +17,7 @@ import java.util.BitSet;
  *
  * @param <K> The type of {@link Hash} elements this sketch accepts
  */
-public class OddSketch<K extends Hash> {
+public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Cloneable {
     private static final Logger LOG = Logger.getLogger(OddSketch.class);
 
     private BitSet sketch;
@@ -232,5 +236,94 @@ public class OddSketch<K extends Hash> {
      */
     protected void setSketch(@Nonnull BitSet sketch) {
         this.sketch = sketch;
+    }
+
+    protected int getElementsAdded() {
+        return this.elementsAdded;
+    }
+
+    protected void setElementsAdded(int elements) {
+        this.elementsAdded = elements;
+    }
+
+    @Override
+    public OddSketch<K> merge(OddSketch<K> oddSketch) {
+        Preconditions.checkArgument(this.getClass().equals(oddSketch.getClass()),
+                "You can't merge different type odd sketches");
+
+        int minSize = this.getSize() < oddSketch.getSize() ? this.getSize() : oddSketch.getSize();
+
+        OddSketch<K> newSketch = cloneSmaller(this, oddSketch);
+
+        OddSketch<K> biggerSketch = getBiggerSketch(this, oddSketch);
+
+        biggerSketch.fold(minSize);
+
+        newSketch.getSketch().xor(biggerSketch.getSketch());
+        newSketch.setElementsAdded(newSketch.getElementsAdded() + biggerSketch.getElementsAdded());
+
+        return newSketch;
+    }
+
+    private OddSketch<K> getBiggerSketch(OddSketch<K> oddSketch1, OddSketch<K> oddSketch2) {
+        return oddSketch1.getSize() < oddSketch2.getSize() ? oddSketch2 : oddSketch1;
+    }
+
+    private OddSketch<K> cloneSmaller(OddSketch<K> oddSketch1, OddSketch<K> oddSketch2) {
+        OddSketch smallerSketch = null;
+
+        try {
+            smallerSketch = (OddSketch<K>) (oddSketch1.getSize() < oddSketch2.getSize() ? oddSketch1.clone() : oddSketch2.clone());
+        } catch (CloneNotSupportedException e) {
+            Throwables.propagate(e);
+        }
+
+        return smallerSketch;
+    }
+
+    private void fold(int size) {
+        Preconditions.checkArgument(this.getSize() >= size);
+
+        BitSet newSketch = new BitSet(size);
+
+        for (int i = 0; size * i < this.getSize(); i++) {
+            int sizeTo = size * (i + 1) < this.getSize() ? size * (i + 1) : this.getSize();
+
+            BitSet subSketch = this.getSketch().get(size * i , sizeTo);
+
+            newSketch.xor(subSketch);
+        }
+
+        this.setSize(size);
+        this.setSketch(newSketch);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof OddSketch))
+            return false;
+
+        if (o == this)
+            return true;
+
+        OddSketch sketch = (OddSketch) o;
+
+        return this.getSize() == sketch.getSize() &&
+                this.getElementsAdded() == sketch.getElementsAdded() &&
+                this.getSketch().equals(sketch.getSketch());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getSize(), this.getSketch(), this.getElementsAdded());
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this.getClass())
+                .add("size", this.getSize())
+                .add("elements added", this.getElementsAdded())
+                .add("sketch", this.getSketch())
+                .toString();
     }
 }

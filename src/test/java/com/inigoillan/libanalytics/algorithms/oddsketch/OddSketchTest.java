@@ -77,6 +77,44 @@ public class OddSketchTest {
 
 
     @Test
+    public void Merge_SameSizedSketches_ResultCorrect() {
+        // Arrange
+        OddSketch<Hash> sketch1 = buildOddSketch(10);
+        sketch1.addHashed(hash(1));
+        OddSketch<Hash> sketch2 = buildOddSketch(10);
+        sketch2.addHashed(hash(2));
+
+        OddSketch<Hash> expectedResult = buildOddSketch(10);
+        expectedResult.addHashed(hash(1));
+        expectedResult.addHashed(hash(2));
+
+        // Act
+        OddSketch<Hash> result = sketch1.merge(sketch2);
+
+        // Assert
+        assertEquals(expectedResult, result);
+    }
+
+    @Test
+    public void Merge_DifferentSizedSketches_ResultCorrect() {
+        // Arrange
+        OddSketch<Hash> sketch1 = buildOddSketch(10);
+        sketch1.addHashed(hash(1));
+        OddSketch<Hash> sketch2 = buildOddSketch(30);
+        sketch2.addHashed(hash(25));
+
+        OddSketch<Hash> expectedResult = buildOddSketch(10);
+        expectedResult.addHashed(hash(1));
+        expectedResult.addHashed(hash(25));
+
+        // Act
+        OddSketch<Hash> result = sketch1.merge(sketch2);
+
+        // Assert
+        assertEquals(expectedResult, result);
+    }
+
+    @Test
     public void ComputeJaccardIndex_VerySimilarOddSketches_ReturnsRatio() {
         // Arrange
         OddSketch<Hash> sketch1 = buildOddSketch(10);
