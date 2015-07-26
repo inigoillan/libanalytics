@@ -13,6 +13,8 @@ import java.util.Objects;
 
 
 /**
+ * Base class for the Odd Sketch algorithm
+ *
  * For details, please refer to the <a href="http://www.itu.dk/people/pagh/papers/oddsketch.pdf">OddSketch paper</a>
  *
  * @param <K> The type of {@link Hash} elements this sketch accepts
@@ -20,10 +22,14 @@ import java.util.Objects;
 public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Cloneable {
     private static final Logger LOG = Logger.getLogger(OddSketch.class);
 
+    //region Variables
+
     private BitSet sketch;
 
     private int size;
     private int elementsAdded = 0;
+
+    //endregion
 
 
     //region ctors
@@ -170,10 +176,16 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
      */
     public double estimateJaccardIndex(@Nonnull OddSketch<Hash> other) {
         Preconditions.checkArgument(other.getSize() == this.getSize());
-        Preconditions.checkArgument(other.elementsAdded == this.elementsAdded);
 
-        if (this.elementsAdded == 0)
-            return 1.0;
+        if (this.getElementsAdded() == 0) {
+            if (other.getElementsAdded() == 0)
+                return 1.0;
+            else
+                return 0.0;
+        } else {
+            if (other.getElementsAdded() == 0)
+                return 0.0;
+        }
 
         int symmetricDifference = computeSymmetricDifference(other);
 
