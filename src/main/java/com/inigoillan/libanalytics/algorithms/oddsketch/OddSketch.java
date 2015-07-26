@@ -26,6 +26,7 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
     private int elementsAdded = 0;
 
 
+    //region ctors
     /**
      * Constructor
      *
@@ -42,6 +43,11 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
         this.setSketch(sketch);
     }
 
+    //endregion
+
+
+    //region addHashed
+
     /**
      * Adds a hashed element to the sketch
      */
@@ -52,6 +58,26 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
         elementsAdded++;
     }
 
+    protected int getBucket(Hash hash) {
+        return hash.mod(size);
+    }
+
+    /**
+     * Flips (XOR) the bit in the ith position of the sketch
+     *
+     * @param index The posistion in the sketch to be flipped
+     */
+    protected void xorIthBit(int index) {
+        Preconditions.checkArgument(index >= 0, "The index needs to be positive");
+        Preconditions.checkArgument(index < size, "Index has to be in the bounds set in the size parameter");
+
+        sketch.flip(index);
+    }
+
+    //endregion
+
+
+    //region Set size
     /**
      * Estimates the set size of this Odd sketch.
      * Uses the Poisson Approximation by default to be consistent with the Jaccard Index estimation
@@ -119,6 +145,10 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
         return (int) Math.round(sizeEstimation);
     }
 
+    //endregion
+
+
+    //region Jaccard index
     /**
      * Estimates the Jaccard Index for this Odd sketch:
      *
@@ -180,22 +210,10 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
         return sketch.cardinality();
     }
 
-    protected int getBucket(Hash hash) {
-        return hash.mod(size);
-    }
+    //endregion
 
-    /**
-     * Flips (XOR) the bit in the ith position of the sketch
-     *
-     * @param index The posistion in the sketch to be flipped
-     */
-    protected void xorIthBit(int index) {
-        Preconditions.checkArgument(index >= 0, "The index needs to be positive");
-        Preconditions.checkArgument(index < size, "Index has to be in the bounds set in the size parameter");
 
-        sketch.flip(index);
-    }
-
+    //region Getters and setters
 
     /**
      * Gets the size of the sketch.
@@ -238,6 +256,10 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
         this.sketch = sketch;
     }
 
+    /**
+     *
+     * @return
+     */
     protected int getElementsAdded() {
         return this.elementsAdded;
     }
@@ -245,6 +267,11 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
     protected void setElementsAdded(int elements) {
         this.elementsAdded = elements;
     }
+
+    //endregion
+
+
+    //region Merge code
 
     @Override
     public OddSketch<K> merge(OddSketch<K> oddSketch) {
@@ -301,12 +328,24 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
         sketch1.setElementsAdded(sketch1.getElementsAdded() + sketch2.getElementsAdded());
     }
 
+    //endregion
 
 
-    /*
-        Equals, Hashcode and toString region
-     */
+    //region Equals, Hashcode and toString
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getSize(), this.getSketch(), this.getElementsAdded());
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this.getClass())
+                .add("size", this.getSize())
+                .add("elements added", this.getElementsAdded())
+                .add("sketch", this.getSketch())
+                .toString();
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -323,17 +362,5 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
                 this.getSketch().equals(sketch.getSketch());
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.getSize(), this.getSketch(), this.getElementsAdded());
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this.getClass())
-                .add("size", this.getSize())
-                .add("elements added", this.getElementsAdded())
-                .add("sketch", this.getSketch())
-                .toString();
-    }
+    //endregion
 }
