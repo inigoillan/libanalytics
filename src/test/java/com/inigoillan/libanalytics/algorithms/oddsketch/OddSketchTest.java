@@ -11,6 +11,7 @@ import static org.mockito.Mockito.mock;
 
 public class OddSketchTest {
 
+    //region estimateSetSize tests
     @Test
     public void estimateSetSize_1Element_ReturnsSetSize1() {
         // Arrange
@@ -35,8 +36,12 @@ public class OddSketchTest {
         assertEquals(6, setSize, getSetSizeAccuracy());
     }
 
+    //endregion
+
+
+    //region estimateJaccardIndex tests
     @Test
-    public void ComputeJaccardIndex_SameOddSketch_Returns1() {
+    public void EstimateJaccardIndex_SameOddSketch_Returns1() {
         // Arrange
         OddSketch<Hash> sketch = buildOddSketch(10);
         sketch.addHashed(hash(1));
@@ -49,7 +54,7 @@ public class OddSketchTest {
     }
 
     @Test
-    public void ComputeJaccardIndex_NoElementsAdded_Returns1() {
+    public void EstimateJaccardIndex_NoElementsAdded_Returns1() {
         // Arrange
         OddSketch<Hash> sketch1 = buildOddSketch(10);
         OddSketch<Hash> sketch2 = buildOddSketch(10);
@@ -62,7 +67,7 @@ public class OddSketchTest {
     }
 
     @Test
-    public void ComputeJaccardIndex_DifferentOddSketch_Returns0() {
+    public void EstimateJaccardIndex_DifferentOddSketch_Returns0() {
         // Arrange
         OddSketch<Hash> sketch1 = buildOddSketch(10);
         OddSketch<Hash> sketch2 = buildOddSketch(10);
@@ -75,6 +80,25 @@ public class OddSketchTest {
         assertEquals(0.0, jaccardIndex, 0.0);
     }
 
+
+    @Test
+    public void EstimateJaccardIndex_VerySimilarOddSketches_ReturnsRatio() {
+        // Arrange
+        OddSketch<Hash> sketch1 = buildOddSketch(10);
+        OddSketch<Hash> sketch2 = buildOddSketch(10);
+
+        // Act
+        double jaccardIndex = getJaccardIndexFor(sketch1, new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+                sketch2, new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 11});
+
+        // Assert
+        assertEquals(0.9, jaccardIndex, 0.05);
+    }
+
+    //endregion
+
+
+    //region Merge tests
 
     @Test
     public void Merge_SameSizedSketches_ResultCorrect() {
@@ -114,20 +138,10 @@ public class OddSketchTest {
         assertEquals(expectedResult, result);
     }
 
-    @Test
-    public void ComputeJaccardIndex_VerySimilarOddSketches_ReturnsRatio() {
-        // Arrange
-        OddSketch<Hash> sketch1 = buildOddSketch(10);
-        OddSketch<Hash> sketch2 = buildOddSketch(10);
+    //endregion
 
-        // Act
-        double jaccardIndex = getJaccardIndexFor(sketch1, new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
-                                                sketch2, new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 11});
 
-        // Assert
-        assertEquals(0.9, jaccardIndex, 0.05);
-    }
-
+    //region Helper methods
 
     private double getJaccardIndexFor(OddSketch<Hash> sketch1, int[] elements1,
                                     OddSketch<Hash> sketch2, int[] elements2) {
@@ -164,4 +178,6 @@ public class OddSketchTest {
     private float getSetSizeAccuracy() {
         return 1.0f;
     }
+
+    //endregion
 }
