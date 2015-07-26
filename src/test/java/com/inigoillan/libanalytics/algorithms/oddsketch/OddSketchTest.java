@@ -74,7 +74,7 @@ public class OddSketchTest {
 
         // Act
         double jaccardIndex = getJaccardIndexFor(sketch1, new int[]{1, 2, 3, 4},
-                                                sketch2, new int[]{6, 7, 8, 9});
+                sketch2, new int[]{6, 7, 8, 9});
 
         // Assert
         assertEquals(0.0, jaccardIndex, 0.0);
@@ -99,7 +99,6 @@ public class OddSketchTest {
 
 
     //region Merge tests
-
     @Test
     public void Merge_SameSizedSketches_ResultCorrect() {
         // Arrange
@@ -142,14 +141,13 @@ public class OddSketchTest {
 
 
     //region Helper methods
-
     private double getJaccardIndexFor(OddSketch<Hash> sketch1, int[] elements1,
-                                    OddSketch<Hash> sketch2, int[] elements2) {
+                                      OddSketch<Hash> sketch2, int[] elements2) {
         for (int element : elements1) {
             sketch1.addHashed(hash(element));
         }
 
-        for (int element: elements2) {
+        for (int element : elements2) {
             sketch2.addHashed(hash(element));
         }
 

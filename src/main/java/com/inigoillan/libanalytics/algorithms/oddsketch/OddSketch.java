@@ -27,6 +27,7 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
 
 
     //region ctors
+
     /**
      * Constructor
      *
@@ -78,6 +79,7 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
 
 
     //region Set size
+
     /**
      * Estimates the set size of this Odd sketch.
      * Uses the Poisson Approximation by default to be consistent with the Jaccard Index estimation
@@ -90,14 +92,14 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
 
     /**
      * Estimates the set size for this Odd sketch based on the Markov Chain Model:
-     *
+     * <p>
      * <math xmlns="http://www.w3.org/1998/Math/MathML"><mover><mi>m</mi><mo>^</mo></mover><mo>=</mo><mfrac><mrow><mi>ln</mi><mfenced><mrow><mn>1</mn><mo>-</mo><mn>2</mn><mi>z</mi><mo>/</mo><mi>n</mi></mrow></mfenced></mrow><mrow><mi>ln</mi><mfenced><mrow><mn>1</mn><mo>-</mo><mn>2</mn><mo>/</mo><mi>n</mi></mrow></mfenced></mrow></mfrac></math>
      * <br>
      * where <math><mi>m</mi></math> is the size of the set,
      * <math><mi>z</mi></math> is the number of odd bins in the sketch,
      * and <math><mi>n</mi></math> is the total number of bins in the sketch
      * <br><br>
-     *
+     * <p>
      * Refer to the <a href="http://www.itu.dk/people/pagh/papers/oddsketch.pdf">OddSketch paper</a> for details.
      *
      * @return The set size estimated by the Odd sketch using the Markov Chain Model
@@ -119,14 +121,14 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
 
     /**
      * Estimates the set size for this Odd sketch based on the Poisson approximation:
-     *
+     * <p>
      * <math xmlns="http://www.w3.org/1998/Math/MathML"><mover><mi>m</mi><mo>^</mo></mover><mo>=</mo><mo>-</mo><mfrac><mi>n</mi><mn>2</mn></mfrac><mi>ln</mi><mfenced><mrow><mn>1</mn><mo>-</mo><mn>2</mn><mi>z</mi><mo>/</mo><mi>n</mi></mrow></mfenced></math>
      * <br>
      * where <math><mi>m</mi></math> is the size of the set,
      * <math><mi>z</mi></math> is the number of odd bins in the sketch,
      * and <math><mi>n</mi></math> is the number of bins in the sketch
      * <br><br>
-     *
+     * <p>
      * Refer to the <a href="http://www.itu.dk/people/pagh/papers/oddsketch.pdf">OddSketch paper</a> for details.
      *
      * @return The set size estimated by the Odd sketch using the Markov Chain Model
@@ -149,9 +151,10 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
 
 
     //region Jaccard index
+
     /**
      * Estimates the Jaccard Index for this Odd sketch:
-     *
+     * <p>
      * <math xmlns="http://www.w3.org/1998/Math/MathML"><mover><mi>J</mi><mo>^</mo></mover><mo>=</mo><mn>1</mn><mo>+</mo><mstyle displaystyle="false"><mfrac><mi>n</mi><mrow><mn>4</mn><mi>k</mi></mrow></mfrac></mstyle><mi>ln</mi><mfenced><mrow><mn>1</mn><mo>-</mo><mstyle displaystyle="false"><mfrac><mrow><mn>2</mn><mfenced open="|" close="|"><mrow><mi>o</mi><mi>d</mi><mi>d</mi><mo>(</mo><msub><mi>S</mi><mn>1</mn></msub><mo>)</mo><mo>&#8710;</mo><mi>o</mi><mi>d</mi><mi>d</mi><mo>(</mo><msub><mi>S</mi><mn>2</mn></msub><mo>)</mo></mrow></mfenced></mrow><mi>n</mi></mfrac></mstyle></mrow></mfenced><mspace linebreak="newline"/></math>
      * <br>
      * where <math><mi>J</mi></math> is the estimated Jaccard Index,
@@ -159,7 +162,7 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
      * <math><mfenced open="|" close="|"><mrow><mi>o</mi><mi>d</mi><mi>d</mi><mo>(</mo><msub><mi>S</mi><mn>1</mn></msub><mo>)</mo><mo>&#8710;</mo><mi>o</mi><mi>d</mi><mi>d</mi><mo>(</mo><msub><mi>S</mi><mn>2</mn></msub><mo>)</mo></mrow></mfenced><mspace linebreak="newline"/></math> is the symmetric difference (number of 1's in the xor-ed sketch)
      * and <math><mi>n</mi></math> is the number of bins in the sketch
      * <br><br>
-     *
+     * <p>
      * Refer to the <a href="http://www.itu.dk/people/pagh/papers/oddsketch.pdf">OddSketch paper</a> for details.
      *
      * @param other
@@ -257,7 +260,6 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
     }
 
     /**
-     *
      * @return
      */
     protected int getElementsAdded() {
@@ -314,7 +316,7 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
         for (int i = 0; size * i < this.getSize(); i++) {
             int sizeTo = size * (i + 1) < this.getSize() ? size * (i + 1) : this.getSize();
 
-            BitSet subSketch = this.getSketch().get(size * i , sizeTo);
+            BitSet subSketch = this.getSketch().get(size * i, sizeTo);
 
             newSketch.xor(subSketch);
         }
