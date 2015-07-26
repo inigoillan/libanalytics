@@ -29,7 +29,7 @@ public class OddSketchTest {
         OddSketch<Hash> sketch = buildOddSketch(30);
 
         // Act
-        int setSize = estimateSetSizeFor(sketch, 1, 2, 3, 4, 5, 6);
+        int setSize = estimateSetSizeFor(sketch, 1, 5, 10, 15, 20, 25);
 
         // Assert
         assertEquals(6, setSize, getSetSizeAccuracy());

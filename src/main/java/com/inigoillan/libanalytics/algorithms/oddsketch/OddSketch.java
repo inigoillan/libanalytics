@@ -251,34 +251,32 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
         Preconditions.checkArgument(this.getClass().equals(oddSketch.getClass()),
                 "You can't merge different type odd sketches");
 
-        int minSize = this.getSize() < oddSketch.getSize() ? this.getSize() : oddSketch.getSize();
+        OddSketch<K> smallerSketch = getSmallerSketch(this, oddSketch);
 
-        OddSketch<K> newSketch = cloneSmaller(this, oddSketch);
+        OddSketch<K> newSketch = clone(smallerSketch);
+        OddSketch<K> biggerSketch = this == smallerSketch ? oddSketch : this;
 
-        OddSketch<K> biggerSketch = getBiggerSketch(this, oddSketch);
+        int smallerSize = smallerSketch.getSize();
+        biggerSketch.fold(smallerSize);
 
-        biggerSketch.fold(minSize);
-
-        newSketch.getSketch().xor(biggerSketch.getSketch());
-        newSketch.setElementsAdded(newSketch.getElementsAdded() + biggerSketch.getElementsAdded());
+        mergeSameSizedSketches(newSketch, biggerSketch);
 
         return newSketch;
     }
 
-    private OddSketch<K> getBiggerSketch(OddSketch<K> oddSketch1, OddSketch<K> oddSketch2) {
-        return oddSketch1.getSize() < oddSketch2.getSize() ? oddSketch2 : oddSketch1;
-    }
-
-    private OddSketch<K> cloneSmaller(OddSketch<K> oddSketch1, OddSketch<K> oddSketch2) {
-        OddSketch smallerSketch = null;
-
+    private OddSketch<K> clone(OddSketch<K> sketch) {
+        OddSketch<K> result = null;
         try {
-            smallerSketch = (OddSketch<K>) (oddSketch1.getSize() < oddSketch2.getSize() ? oddSketch1.clone() : oddSketch2.clone());
+            return (OddSketch<K>) sketch.clone();
         } catch (CloneNotSupportedException e) {
             Throwables.propagate(e);
         }
 
-        return smallerSketch;
+        return result;
+    }
+
+    private OddSketch<K> getSmallerSketch(OddSketch<K> oddSketch1, OddSketch<K> oddSketch2) {
+        return oddSketch1.getSize() <= oddSketch2.getSize() ? oddSketch1 : oddSketch2;
     }
 
     private void fold(int size) {
@@ -297,6 +295,18 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
         this.setSize(size);
         this.setSketch(newSketch);
     }
+
+    private void mergeSameSizedSketches(OddSketch<K> sketch1, OddSketch<K> sketch2) {
+        sketch1.getSketch().xor(sketch2.getSketch());
+        sketch1.setElementsAdded(sketch1.getElementsAdded() + sketch2.getElementsAdded());
+    }
+
+
+
+    /*
+        Equals, Hashcode and toString region
+     */
+
 
     @Override
     public boolean equals(Object o) {
