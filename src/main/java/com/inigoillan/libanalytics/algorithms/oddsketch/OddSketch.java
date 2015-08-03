@@ -294,7 +294,7 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
 
         OddSketch<K> smallerSketch = getSmallerSketch(this, oddSketch);
 
-        OddSketch<K> newSketch = clone(smallerSketch);
+        OddSketch<K> newSketch = smallerSketch.clone();
         OddSketch<K> biggerSketch = this == smallerSketch ? oddSketch : this;
 
         int smallerSize = smallerSketch.getSize();
@@ -303,17 +303,6 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
         mergeSameSizedSketches(newSketch, biggerSketch);
 
         return newSketch;
-    }
-
-    private OddSketch<K> clone(OddSketch<K> sketch) {
-        OddSketch<K> result = null;
-        try {
-            return (OddSketch<K>) sketch.clone();
-        } catch (CloneNotSupportedException e) {
-            Throwables.propagate(e);
-        }
-
-        return result;
     }
 
     private OddSketch<K> getSmallerSketch(OddSketch<K> oddSketch1, OddSketch<K> oddSketch2) {
@@ -377,6 +366,21 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
         return this.getSize() == sketch.getSize() &&
                 this.getElementsAdded() == sketch.getElementsAdded() &&
                 this.getSketch().equals(sketch.getSketch());
+    }
+
+    //endregion
+
+
+    //region Clone
+
+    @Nonnull
+    public OddSketch<K> clone() {
+        OddSketch<K> sketch = new OddSketch<>(this.getSize());
+
+        sketch.setSketch((BitSet) this.getSketch().clone());
+        sketch.setElementsAdded(this.getElementsAdded());
+
+        return sketch;
     }
 
     //endregion
