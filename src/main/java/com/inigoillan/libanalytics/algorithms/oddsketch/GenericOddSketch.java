@@ -1,16 +1,20 @@
 package com.inigoillan.libanalytics.algorithms.oddsketch;
 
+import com.google.common.base.MoreObjects;
 import com.inigoillan.libanalytics.algorithms.hashers.Hash;
 import com.inigoillan.libanalytics.algorithms.hashers.Hasher;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 /**
- * @author ignacius
- * @since  24/07/15
+ * Adds support for adding a generic element to the Odd sketch using a given {@link Hasher}
+ *
  */
 public class GenericOddSketch<E, K extends Hash> extends OddSketch<K> {
     private Hasher<E, K> hasher;
+
+    //region constructor
 
     /**
      * Constructor
@@ -23,6 +27,10 @@ public class GenericOddSketch<E, K extends Hash> extends OddSketch<K> {
         this.hasher = hasher;
     }
 
+    //endregion
+
+
+    //region addElement
 
     /**
      * Adds an element to the sketch
@@ -37,11 +45,46 @@ public class GenericOddSketch<E, K extends Hash> extends OddSketch<K> {
         return this.hasher.hash(element);
     }
 
+    //endregion
+
+
+    //region Getters and setters
+
     protected Hasher<E, K> getHasher() {
         return this.hasher;
     }
 
     protected void setHasher(@Nonnull Hasher<E, K> hasher) {
         this.hasher = hasher;
+    }
+
+    //endregion
+
+
+    //region Equals, hashcode and toString
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof GenericOddSketch))
+            return false;
+
+        if (o == this)
+            return true;
+
+        GenericOddSketch sketch = (GenericOddSketch) o;
+
+        return this.getHasher().equals(((GenericOddSketch) o).getHasher()) && super.equals(o);
+    }
+
+
+    @Override
+    protected MoreObjects.ToStringHelper toStringHelper() {
+        return super.toStringHelper()
+                .add("hashed object", this.getHasher());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getHasher(), super.hashCode());
     }
 }

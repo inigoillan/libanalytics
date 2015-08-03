@@ -354,11 +354,14 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
 
     @Override
     public String toString() {
+        return toStringHelper().toString();
+    }
+
+    protected MoreObjects.ToStringHelper toStringHelper() {
         return MoreObjects.toStringHelper(this.getClass())
-                .add("size", this.getSize())
-                .add("elements added", this.getElementsAdded())
-                .add("sketch", this.getSketch())
-                .toString();
+                    .add("size", this.getSize())
+                    .add("elements added", this.getElementsAdded())
+                    .add("sketch", this.getSketch());
     }
 
     @Override
