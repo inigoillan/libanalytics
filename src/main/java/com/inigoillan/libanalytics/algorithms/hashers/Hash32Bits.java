@@ -1,6 +1,7 @@
 package com.inigoillan.libanalytics.algorithms.hashers;
 
 /**
+ * Represents a hashed element into a 32 bits key
  *
  * @author <a href="mailto:inigo.illan@gmail.com">Inigo Illan</a>
  * @since  1.0
