@@ -7,7 +7,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.inigoillan.libanalytics.algorithms.Mergeable;
-import com.inigoillan.libanalytics.algorithms.hash.Hash;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;

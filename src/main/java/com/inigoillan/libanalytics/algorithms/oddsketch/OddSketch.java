@@ -4,7 +4,6 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.inigoillan.libanalytics.algorithms.Mergeable;
 import com.inigoillan.libanalytics.algorithms.hash.Divisible;
-import com.inigoillan.libanalytics.algorithms.hash.Hash;
 import org.apache.log4j.Logger;
 
 import javax.annotation.Nonnull;
@@ -17,7 +16,7 @@ import java.util.Objects;
  *
  * For details, please refer to the <a href="http://www.itu.dk/people/pagh/papers/oddsketch.pdf">OddSketch paper</a>
  *
- * @param <K> The type of {@link Hash} elements this sketch accepts
+ * @param <K> The type of {@link Divisible} elements this sketch accepts
  *
  * @author <a href="mailto:inigo.illan@gmail.com">Inigo Illan</a>
  * @since  1.0
