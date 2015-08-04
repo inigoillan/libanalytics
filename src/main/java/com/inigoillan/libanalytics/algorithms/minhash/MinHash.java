@@ -47,7 +47,8 @@ public class MinHash<K extends Hash> implements Mergeable<MinHash<K>> {
 
     /**
      * Adds the element to the set
-     * @param hash
+     *
+     * @param hash The Hash to add to the set
      */
 
     public void addHashed(@Nonnull K hash) {
@@ -61,11 +62,6 @@ public class MinHash<K extends Hash> implements Mergeable<MinHash<K>> {
 
     //region merge
 
-    /**
-     *
-     * @param minHash
-     * @return
-     */
     @Nonnull
     @Override
     public MinHash<K> merge(@Nonnull MinHash<K> minHash) {
@@ -107,8 +103,9 @@ public class MinHash<K extends Hash> implements Mergeable<MinHash<K>> {
     /**
      * Estimates the Jaccard Index between this minhash and the one provided in the parameter
      *
-     * @param minHash
-     * @return
+     * @param minHash The MinHash against which to estimate the Jaccard Index
+     *
+     * @return the Jaccard Index as a [0..1] value. Note this method doesn't cause any changes in the internal state of the class
      */
     public float estimateJaccardIndex(@Nonnull MinHash<K> minHash) {
         if (this.getTreeSet().size() == 0 || minHash.getTreeSet().size() == 0) {
@@ -131,10 +128,10 @@ public class MinHash<K extends Hash> implements Mergeable<MinHash<K>> {
 
 
     /**
-     * Gets the estimated Jaccard Index of this MinHash
+     * Gets the estimated Jaccard Index
      *
-     * @param hashes
-     * @return
+     * @param hashes The MinHashes against to which estimate the Jaccard Index.
+     * @return the Jaccard Index as a [0..1] value
      */
     @Beta
     public static <T extends Hash> float estimateJaccardIndex(@Nonnull Iterable<MinHash<T>> hashes) {
@@ -182,6 +179,12 @@ public class MinHash<K extends Hash> implements Mergeable<MinHash<K>> {
         return ((float)result)/mink;
     }
 
+    /**
+     * Gets the estimated Jaccard Index
+     *
+     * @param hashes The MinHashes against to which estimate the Jaccard Index.
+     * @return the Jaccard Index as a [0..1] value
+     */
     @Beta
     public static float estimateJaccardIndex(MinHash... hashes) {
         return estimateJaccardIndex(Lists.newArrayList(hashes));
