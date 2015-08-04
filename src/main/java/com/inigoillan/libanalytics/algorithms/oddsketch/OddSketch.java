@@ -18,6 +18,9 @@ import java.util.Objects;
  * For details, please refer to the <a href="http://www.itu.dk/people/pagh/papers/oddsketch.pdf">OddSketch paper</a>
  *
  * @param <K> The type of {@link Hash} elements this sketch accepts
+ *
+ * @author <a href="mailto:inigo.illan@gmail.com">Inigo Illan</a>
+ * @since  1.0
  */
 public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Cloneable {
     private static final Logger LOG = Logger.getLogger(OddSketch.class);

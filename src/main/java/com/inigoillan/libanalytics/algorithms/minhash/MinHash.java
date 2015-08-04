@@ -18,7 +18,8 @@ import java.util.TreeSet;
  *
  * For details on the implementation. Please refer to the <a href="http://www.cs.princeton.edu/courses/archive/spring04/cos598B/bib/BroderCFM-minwise.pdf">Minhash paper</a>
  *
- * @author: <a href="inigo.illan@gmail.com">Inigo Illan</a>
+ * @author <a href="mailto:inigo.illan@gmail.com">Inigo Illan</a>
+ * @since  1.0
  */
 public class MinHash<K extends Hash> implements Mergeable<MinHash<K>> {
     private static Predicate<MinHash> SIZE_NOT_ZERO = new Predicate<MinHash>() {

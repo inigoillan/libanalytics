@@ -1,5 +1,10 @@
 package com.inigoillan.libanalytics.algorithms.hashers;
 
+/**
+ *
+ * @author <a href="mailto:inigo.illan@gmail.com">Inigo Illan</a>
+ * @since  1.0
+ */
 public class Hash32Bits implements Hash, Comparable<Hash32Bits> {
     private final int hash;
 

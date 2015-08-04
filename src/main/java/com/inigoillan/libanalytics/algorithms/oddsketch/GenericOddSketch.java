@@ -10,6 +10,8 @@ import java.util.Objects;
 /**
  * Adds support for adding a generic element to the Odd sketch using a given {@link Hasher}
  *
+ * @author <a href="mailto:inigo.illan@gmail.com">Inigo Illan</a>
+ * @since  1.0
  */
 public class GenericOddSketch<E, K extends Hash> extends OddSketch<K> {
     private Hasher<E, K> hasher;

@@ -7,8 +7,8 @@ import javax.annotation.Nonnull;
 /**
  * Specification for elements that can be merged together
  *
- * @author: Inigo Illan <inigo.illan@gmail.com>
- * @since: 25/07/15
+ * @author <a href="mailto:inigo.illan@gmail.com">Inigo Illan</a>
+ * @since  1.0
  */
 @Beta
 public interface Mergeable<K> {

@@ -2,6 +2,11 @@ package com.inigoillan.libanalytics.algorithms.hashers;
 
 import com.google.common.annotations.Beta;
 
+/**
+ *
+ * @author <a href="mailto:inigo.illan@gmail.com">Inigo Illan</a>
+ * @since  1.0
+ */
 @Beta
 public interface Hash {
     /**
