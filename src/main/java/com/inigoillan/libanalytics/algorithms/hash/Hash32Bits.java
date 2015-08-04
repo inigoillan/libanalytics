@@ -1,5 +1,9 @@
 package com.inigoillan.libanalytics.algorithms.hash;
 
+import com.google.common.base.Preconditions;
+
+import javax.annotation.Nonnegative;
+
 /**
  * Represents a hashed element into a 32 bits key
  *
@@ -24,13 +28,19 @@ public class Hash32Bits implements Hash, Comparable<Hash32Bits> {
     }
 
     @Override
-    public Integer getLeastSignficantBits(int bits) {
-        return 0;
+    public Integer getLeastSignficantBits(@Nonnegative int bits) {
+        Preconditions.checkArgument(bits < 32);
+
+        int hex = (1 << bits) - 1;
+
+        return this.hash & hex;
     }
 
     @Override
     public Integer getMostSignificantBits(int bits) {
-        return 0;
+        Preconditions.checkArgument(bits <= 32);
+
+        return (this.hash >>> (32 - bits));
     }
 
     @Override
