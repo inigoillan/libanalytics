@@ -3,6 +3,7 @@ package com.inigoillan.libanalytics.algorithms.oddsketch;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.inigoillan.libanalytics.algorithms.Mergeable;
+import com.inigoillan.libanalytics.algorithms.hash.Divisible;
 import com.inigoillan.libanalytics.algorithms.hash.Hash;
 import org.apache.log4j.Logger;
 
@@ -21,7 +22,7 @@ import java.util.Objects;
  * @author <a href="mailto:inigo.illan@gmail.com">Inigo Illan</a>
  * @since  1.0
  */
-public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Cloneable {
+public class OddSketch<K extends Divisible> implements Mergeable<OddSketch<K>>, Cloneable {
     private static final Logger LOG = Logger.getLogger(OddSketch.class);
 
     //region Variables

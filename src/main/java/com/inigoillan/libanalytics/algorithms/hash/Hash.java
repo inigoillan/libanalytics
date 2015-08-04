@@ -9,27 +9,6 @@ import com.google.common.annotations.Beta;
  * @since  1.0
  */
 @Beta
-public interface Hash {
-    /**
-     * Divides the hash by the divisor
-     *
-     * @param divisor
-     * @return
-     */
-    int divideBy(int divisor);
+public interface Hash extends Divisible, SignificantBits {
 
-    /**
-     * Computes the modulo of the hash by the divisor
-     *
-     * @param divisor
-     * @return
-     */
-    int mod(int divisor);
-
-
-    Number getLeastSignificantBits(int bits);
-
-    Number getMostSignificantBits(int bits);
-
-    int getSize();
 }

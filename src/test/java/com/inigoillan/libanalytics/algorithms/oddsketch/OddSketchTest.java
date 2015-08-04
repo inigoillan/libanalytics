@@ -1,5 +1,6 @@
 package com.inigoillan.libanalytics.algorithms.oddsketch;
 
+import com.inigoillan.libanalytics.algorithms.hash.Divisible;
 import com.inigoillan.libanalytics.algorithms.hash.Hash;
 import com.inigoillan.libanalytics.algorithms.hash.Hash32Bits;
 import org.junit.Test;
@@ -14,7 +15,7 @@ public class OddSketchTest {
     @Test
     public void estimateSetSize_1Element_ReturnsSetSize1() {
         // Arrange
-        OddSketch<Hash> sketch = buildOddSketch(10);
+        OddSketch<Divisible> sketch = buildOddSketch(10);
 
         // Act
         int setSize = estimateSetSizeFor(sketch, 1);
@@ -26,7 +27,7 @@ public class OddSketchTest {
     @Test
     public void estimateSetSize_6Elements_ReturnsSetSize6() {
         // Arrange
-        OddSketch<Hash> sketch = buildOddSketch(30);
+        OddSketch<Divisible> sketch = buildOddSketch(30);
 
         // Act
         int setSize = estimateSetSizeFor(sketch, 1, 5, 10, 15, 20, 25);
@@ -42,7 +43,7 @@ public class OddSketchTest {
     @Test
     public void EstimateJaccardIndex_SameOddSketch_Returns1() {
         // Arrange
-        OddSketch<Hash> sketch = buildOddSketch(10);
+        OddSketch<Divisible> sketch = buildOddSketch(10);
         sketch.addHashed(hash(1));
 
         // Act
@@ -55,8 +56,8 @@ public class OddSketchTest {
     @Test
     public void EstimateJaccardIndex_NoElementsAdded_Returns1() {
         // Arrange
-        OddSketch<Hash> sketch1 = buildOddSketch(10);
-        OddSketch<Hash> sketch2 = buildOddSketch(10);
+        OddSketch<Divisible> sketch1 = buildOddSketch(10);
+        OddSketch<Divisible> sketch2 = buildOddSketch(10);
 
         // Act
         double jaccardIndex = sketch1.estimateJaccardIndex(sketch2);
@@ -68,8 +69,8 @@ public class OddSketchTest {
     @Test
     public void EstimateJaccardIndex_DifferentOddSketch_Returns0() {
         // Arrange
-        OddSketch<Hash> sketch1 = buildOddSketch(10);
-        OddSketch<Hash> sketch2 = buildOddSketch(10);
+        OddSketch<Divisible> sketch1 = buildOddSketch(10);
+        OddSketch<Divisible> sketch2 = buildOddSketch(10);
 
         // Act
         double jaccardIndex = getJaccardIndexFor(sketch1, new int[]{1, 2, 3, 4},
@@ -83,8 +84,8 @@ public class OddSketchTest {
     @Test
     public void EstimateJaccardIndex_VerySimilarOddSketches_ReturnsRatio() {
         // Arrange
-        OddSketch<Hash> sketch1 = buildOddSketch(10);
-        OddSketch<Hash> sketch2 = buildOddSketch(10);
+        OddSketch<Divisible> sketch1 = buildOddSketch(10);
+        OddSketch<Divisible> sketch2 = buildOddSketch(10);
 
         // Act
         double jaccardIndex = getJaccardIndexFor(sketch1, new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
@@ -101,17 +102,17 @@ public class OddSketchTest {
     @Test
     public void Merge_SameSizedSketches_ResultCorrect() {
         // Arrange
-        OddSketch<Hash> sketch1 = buildOddSketch(10);
+        OddSketch<Divisible> sketch1 = buildOddSketch(10);
         sketch1.addHashed(hash(1));
-        OddSketch<Hash> sketch2 = buildOddSketch(10);
+        OddSketch<Divisible> sketch2 = buildOddSketch(10);
         sketch2.addHashed(hash(2));
 
-        OddSketch<Hash> expectedResult = buildOddSketch(10);
+        OddSketch<Divisible> expectedResult = buildOddSketch(10);
         expectedResult.addHashed(hash(1));
         expectedResult.addHashed(hash(2));
 
         // Act
-        OddSketch<Hash> result = sketch1.merge(sketch2);
+        OddSketch<Divisible> result = sketch1.merge(sketch2);
 
         // Assert
         assertEquals(expectedResult, result);
@@ -120,17 +121,17 @@ public class OddSketchTest {
     @Test
     public void Merge_DifferentSizedSketches_ResultCorrect() {
         // Arrange
-        OddSketch<Hash> sketch1 = buildOddSketch(10);
+        OddSketch<Divisible> sketch1 = buildOddSketch(10);
         sketch1.addHashed(hash(1));
-        OddSketch<Hash> sketch2 = buildOddSketch(30);
+        OddSketch<Divisible> sketch2 = buildOddSketch(30);
         sketch2.addHashed(hash(25));
 
-        OddSketch<Hash> expectedResult = buildOddSketch(10);
+        OddSketch<Divisible> expectedResult = buildOddSketch(10);
         expectedResult.addHashed(hash(1));
         expectedResult.addHashed(hash(25));
 
         // Act
-        OddSketch<Hash> result = sketch1.merge(sketch2);
+        OddSketch<Divisible> result = sketch1.merge(sketch2);
 
         // Assert
         assertEquals(expectedResult, result);
@@ -140,8 +141,8 @@ public class OddSketchTest {
 
 
     //region Helper methods
-    private double getJaccardIndexFor(OddSketch<Hash> sketch1, int[] elements1,
-                                      OddSketch<Hash> sketch2, int[] elements2) {
+    private double getJaccardIndexFor(OddSketch<Divisible> sketch1, int[] elements1,
+                                      OddSketch<Divisible> sketch2, int[] elements2) {
         for (int element : elements1) {
             sketch1.addHashed(hash(element));
         }
@@ -154,7 +155,7 @@ public class OddSketchTest {
     }
 
 
-    private int estimateSetSizeFor(OddSketch<Hash> sketch, int... elements) {
+    private int estimateSetSizeFor(OddSketch<Divisible> sketch, int... elements) {
         for (Integer element : elements) {
             sketch.addHashed(hash(element));
         }
@@ -162,12 +163,12 @@ public class OddSketchTest {
         return sketch.estimateSetSize();
     }
 
-    private Hash hash(int hash) {
+    private Divisible hash(int hash) {
         return new Hash32Bits(hash);
     }
 
-    private OddSketch<Hash> buildOddSketch(int size) {
-        OddSketch<Hash> sketch = new OddSketch<>(size);
+    private OddSketch<Divisible> buildOddSketch(int size) {
+        OddSketch<Divisible> sketch = new OddSketch<>(size);
 
         return sketch;
     }
