@@ -3,6 +3,7 @@ package com.inigoillan.libanalytics.algorithms.hashers;
 import com.google.common.annotations.Beta;
 
 /**
+ * Represents a hashed element
  *
  * @author <a href="mailto:inigo.illan@gmail.com">Inigo Illan</a>
  * @since  1.0
