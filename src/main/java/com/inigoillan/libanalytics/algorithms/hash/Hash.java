@@ -26,7 +26,8 @@ public interface Hash {
      */
     int mod(int divisor);
 
-    Number getLeastSignficantBits(int bits);
+
+    Number getLeastSignificantBits(int bits);
 
     Number getMostSignificantBits(int bits);
 

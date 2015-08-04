@@ -16,7 +16,7 @@ public class Hash32BitsTest {
         Hash32Bits hash = new Hash32Bits(hashValue);
 
         // Act
-        int result = hash.getLeastSignficantBits(3);
+        int result = hash.getLeastSignificantBits(3);
 
         // Assert
         int expected = 7;
@@ -32,7 +32,7 @@ public class Hash32BitsTest {
         Hash32Bits hash = new Hash32Bits(hashValue);
 
         // Act
-        int result = hash.getLeastSignficantBits(0);
+        int result = hash.getLeastSignificantBits(0);
 
         // Assert
         int expected = 0;
@@ -48,7 +48,7 @@ public class Hash32BitsTest {
         Hash32Bits hash = new Hash32Bits(hashValue);
 
         // Act
-        int result = hash.getLeastSignficantBits(5);
+        int result = hash.getLeastSignificantBits(5);
 
         // Assert
         int expected = 1;

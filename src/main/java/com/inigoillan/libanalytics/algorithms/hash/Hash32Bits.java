@@ -28,7 +28,7 @@ public class Hash32Bits implements Hash, Comparable<Hash32Bits> {
     }
 
     @Override
-    public Integer getLeastSignficantBits(@Nonnegative int bits) {
+    public Integer getLeastSignificantBits(@Nonnegative int bits) {
         Preconditions.checkArgument(bits < 32);
 
         int hex = (1 << bits) - 1;
