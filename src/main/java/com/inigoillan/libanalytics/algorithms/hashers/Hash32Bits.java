@@ -1,6 +1,6 @@
 package com.inigoillan.libanalytics.algorithms.hashers;
 
-public class Hash32Bits implements Hash {
+public class Hash32Bits implements Hash, Comparable<Hash32Bits> {
     private final int hash;
 
     public Hash32Bits(int hash) {
@@ -30,5 +30,15 @@ public class Hash32Bits implements Hash {
     @Override
     public final int getSize() {
         return 32;
+    }
+
+    @Override
+    public String toString() {
+        return Integer.toString(hash);
+    }
+
+    @Override
+    public int compareTo(Hash32Bits hash32Bits) {
+        return hash32Bits.hash == this.hash ? 0 : this.hash - hash32Bits.hash;
     }
 }
