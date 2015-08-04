@@ -67,7 +67,7 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
         elementsAdded++;
     }
 
-    protected int getBucket(Hash hash) {
+    protected int getBucket(K hash) {
         return hash.mod(size);
     }
 
@@ -176,7 +176,7 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
      * @param other
      * @return
      */
-    public double estimateJaccardIndex(@Nonnull OddSketch<Hash> other) {
+    public double estimateJaccardIndex(@Nonnull OddSketch<K> other) {
         Preconditions.checkArgument(other.getSize() == this.getSize());
 
         if (this.getElementsAdded() == 0) {
@@ -219,7 +219,7 @@ public class OddSketch<K extends Hash> implements Mergeable<OddSketch<K>>, Clone
      * @param other
      * @return
      */
-    protected int computeSymmetricDifference(@Nonnull OddSketch<Hash> other) {
+    protected int computeSymmetricDifference(@Nonnull OddSketch<K> other) {
         BitSet sketch = (BitSet) this.getSketch().clone();
 
         sketch.xor(other.getSketch());
