@@ -29,8 +29,13 @@ public class MinHash<K extends Hash> implements Mergeable<MinHash<K>> {
         }
     };
 
+    //region Variables
+
     private TreeSet<K> treeSet = new TreeSet<K>();
     private int maxSize;
+
+    //endregion
+
 
     //region ctors
 
