@@ -2,9 +2,8 @@ package com.inigoillan.libanalytics.algorithms.oddsketch;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Throwables;
 import com.inigoillan.libanalytics.algorithms.Mergeable;
-import com.inigoillan.libanalytics.algorithms.hashers.Hash;
+import com.inigoillan.libanalytics.algorithms.hash.Hash;
 import org.apache.log4j.Logger;
 
 import javax.annotation.Nonnull;

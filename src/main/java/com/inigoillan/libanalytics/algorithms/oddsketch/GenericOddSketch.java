@@ -1,8 +1,8 @@
 package com.inigoillan.libanalytics.algorithms.oddsketch;
 
 import com.google.common.base.MoreObjects;
-import com.inigoillan.libanalytics.algorithms.hashers.Hash;
-import com.inigoillan.libanalytics.algorithms.hashers.Hasher;
+import com.inigoillan.libanalytics.algorithms.hash.Hash;
+import com.inigoillan.libanalytics.algorithms.hash.hasher.Hasher;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;

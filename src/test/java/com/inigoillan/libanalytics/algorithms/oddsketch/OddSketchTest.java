@@ -1,11 +1,10 @@
 package com.inigoillan.libanalytics.algorithms.oddsketch;
 
-import com.inigoillan.libanalytics.algorithms.hashers.Hash;
-import com.inigoillan.libanalytics.algorithms.hashers.Hash32Bits;
+import com.inigoillan.libanalytics.algorithms.hash.Hash;
+import com.inigoillan.libanalytics.algorithms.hash.Hash32Bits;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.CALLS_REAL_METHODS;
 import static org.mockito.Mockito.mock;
 
 

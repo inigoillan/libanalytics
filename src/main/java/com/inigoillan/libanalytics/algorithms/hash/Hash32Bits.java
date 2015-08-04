@@ -1,4 +1,4 @@
-package com.inigoillan.libanalytics.algorithms.hashers;
+package com.inigoillan.libanalytics.algorithms.hash;
 
 /**
  * Represents a hashed element into a 32 bits key

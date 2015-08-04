@@ -1,7 +1,7 @@
 package com.inigoillan.libanalytics.algorithms.oddsketch;
 
-import com.inigoillan.libanalytics.algorithms.hashers.Hash;
-import com.inigoillan.libanalytics.algorithms.hashers.Hasher;
+import com.inigoillan.libanalytics.algorithms.hash.Hash;
+import com.inigoillan.libanalytics.algorithms.hash.hasher.Hasher;
 import org.junit.Test;
 import org.mockito.Mockito;
 

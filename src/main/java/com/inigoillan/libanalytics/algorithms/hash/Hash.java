@@ -1,4 +1,4 @@
-package com.inigoillan.libanalytics.algorithms.hashers;
+package com.inigoillan.libanalytics.algorithms.hash;
 
 import com.google.common.annotations.Beta;
 
