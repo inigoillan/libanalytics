@@ -21,7 +21,7 @@ import java.util.TreeSet;
  * @author <a href="mailto:inigo.illan@gmail.com">Inigo Illan</a>
  * @since  1.0
  */
-public class MinHash<K extends Hash> implements Mergeable<MinHash<K>> {
+public class MinHash<K extends Comparable> implements Mergeable<MinHash<K>> {
     private static Predicate<MinHash> SIZE_NOT_ZERO = new Predicate<MinHash>() {
         @Override
         public boolean apply(MinHash minHash) {
@@ -122,7 +122,7 @@ public class MinHash<K extends Hash> implements Mergeable<MinHash<K>> {
 
         int intersectionCounter = 0;
 
-        for (Hash hash : smallerMinHash.getTreeSet()) {
+        for (Comparable hash : smallerMinHash.getTreeSet()) {
             if (otherMinHash.getTreeSet().contains(hash)) {
                 intersectionCounter++;
             }
@@ -139,7 +139,7 @@ public class MinHash<K extends Hash> implements Mergeable<MinHash<K>> {
      * @return the Jaccard Index as a [0..1] value
      */
     @Beta
-    public static <T extends Hash> float estimateJaccardIndex(@Nonnull Iterable<MinHash<T>> hashes) {
+    public static <T extends Comparable> float estimateJaccardIndex(@Nonnull Iterable<MinHash<T>> hashes) {
         Preconditions.checkArgument(Iterables.size(hashes) > 0);
 
         if (Iterables.any(hashes, SIZE_NOT_ZERO)) {
@@ -160,7 +160,7 @@ public class MinHash<K extends Hash> implements Mergeable<MinHash<K>> {
         int result = 0;
 
         for(int i = 0; i < mink; i++) {
-            Hash l;
+            Comparable l;
 
             try {
                 l = all.pollFirst();
