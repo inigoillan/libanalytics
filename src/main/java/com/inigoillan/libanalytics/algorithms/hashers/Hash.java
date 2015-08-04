@@ -1,6 +1,8 @@
 package com.inigoillan.libanalytics.algorithms.hashers;
 
+import com.google.common.annotations.Beta;
 
+@Beta
 public interface Hash {
     /**
      * Divides the hash by the divisor

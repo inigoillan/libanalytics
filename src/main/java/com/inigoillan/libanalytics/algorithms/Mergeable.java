@@ -1,5 +1,7 @@
 package com.inigoillan.libanalytics.algorithms;
 
+import com.google.common.annotations.Beta;
+
 import javax.annotation.Nonnull;
 
 /**
@@ -8,6 +10,7 @@ import javax.annotation.Nonnull;
  * @author: Inigo Illan <inigo.illan@gmail.com>
  * @since: 25/07/15
  */
+@Beta
 public interface Mergeable<K> {
     /**
      * Merges two elements into one
