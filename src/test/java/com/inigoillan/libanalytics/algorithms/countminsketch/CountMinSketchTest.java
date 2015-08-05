@@ -15,18 +15,35 @@ import static org.junit.Assert.assertEquals;
 
 public class CountMinSketchTest {
 
+    //region Query tests
+
     @Test
-    public void Query_GivenHashes_ReturnAnswer() throws Exception {
+    public void Query_GivenAddedHash20Times_Return20() throws Exception {
         // Arrange
         CountMinSketch<Divisible> countMinSketch = new CountMinSketch<>(3, 10);
-        addHashes(countMinSketch, 10, new int[] {1, 2, 3});
+        addHashes(countMinSketch, 20, new int[] {1, 2, 3});
 
         // Act
         long result = countMinSketch.query(buildDivisibleArray(new int[]{1, 2, 3}));
 
         // Assert
-        assertEquals(10, result);
+        assertEquals(20, result);
     }
+
+    @Test
+    public void Query_GivenHashesNotInSketch_Return0() throws Exception {
+        // Arrange
+        CountMinSketch<Divisible> countMinSketch = new CountMinSketch<>(3, 10);
+        addHashes(countMinSketch, 10, new int[] {1, 2, 3});
+
+        // Act
+        long result = countMinSketch.query(buildDivisibleArray(new int[]{1, 2, 4}));
+
+        // Assert
+        assertEquals(0, result);
+    }
+
+    //endregion
 
     //region Helper methods
 
