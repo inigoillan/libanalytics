@@ -49,7 +49,7 @@ public class CountMinSketchUtilsTest {
     //region GetProbabilityError tests
 
     @Test
-    public void GetProbabilityError_GivenCountMinSketch_ReturnPoint999() {
+    public void GetProbabilityError_GivenCountMinSketch10Rows_ReturnPoint999() {
         // Arrange
         CountMinSketch<Divisible> sketch = mock(CountMinSketch.class);
         when(sketch.getNumRows()).thenReturn(10);
