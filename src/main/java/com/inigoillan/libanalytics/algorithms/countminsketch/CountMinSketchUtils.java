@@ -9,6 +9,8 @@ import java.util.Arrays;
  * @since 1.0
  */
 public class CountMinSketchUtils {
+    
+    private CountMinSketchUtils() {}
 
     //region Estimation Error
 
