@@ -1,12 +1,10 @@
 package com.inigoillan.libanalytics.algorithms.oddsketch;
 
 import com.inigoillan.libanalytics.algorithms.hash.Divisible;
-import com.inigoillan.libanalytics.algorithms.hash.Hash;
 import com.inigoillan.libanalytics.algorithms.hash.Hash32Bits;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
 
 
 public class OddSketchTest {
