@@ -20,7 +20,7 @@ public class CountMinSketchTest {
         addHashes(countMinSketch, 20, new int[] {1, 2, 3});
 
         // Act
-        long result = countMinSketch.query(buildDivisibleArray(new int[]{1, 2, 3}));
+        long result = countMinSketch.estimatePointQuery(buildDivisibleArray(new int[]{1, 2, 3}));
 
         // Assert
         assertEquals(20, result);
@@ -33,7 +33,7 @@ public class CountMinSketchTest {
         addHashes(countMinSketch, 10, new int[] {1, 2, 3});
 
         // Act
-        long result = countMinSketch.query(buildDivisibleArray(new int[]{1, 2, 4}));
+        long result = countMinSketch.estimatePointQuery(buildDivisibleArray(new int[]{1, 2, 4}));
 
         // Assert
         assertEquals(0, result);

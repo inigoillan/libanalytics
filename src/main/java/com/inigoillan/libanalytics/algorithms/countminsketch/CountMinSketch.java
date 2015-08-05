@@ -30,13 +30,13 @@ public class CountMinSketch<K extends Divisible> {
     //region ctors
 
     public CountMinSketch(@Nonnegative int numRows, @Nonnegative int numCols) {
-        this.sketch = Lists.newArrayList();
+        this.setSketch(Lists.newArrayList());
 
         for (int i = 0; i < numRows; i++) {
             long[] array = new long[numCols];
             Arrays.fill(array, 0l);
 
-            this.sketch.add(array);
+            this.getSketch().add(array);
         }
     }
 
@@ -45,19 +45,27 @@ public class CountMinSketch<K extends Divisible> {
 
     //region addHashed
 
+    /**
+     * Given a list of hashes, increments the count in the sketch.
+     *
+     * @param hashes The hashes used to select the buckets to increment the count in the sketch
+     *
+     * @see CountMinSketch#addHashed(long, Divisible[])
+     */
     public void addHashed(@Nonnull K... hashes) {
         addHashed(1, hashes);
     }
 
     /**
-     * Given a list of hashes, add them to the sketch t many times. Note that the number of hashes you provide
+     * Given a list of hashes, adds them to the sketch <i>count</i> times. Note that the number of hashes you provide
      * must be the same as the number of rows you specified in the constructor
      *
-     * @param t      Number of times to add the hashes to the sketch
-     * @param hashes The hashes used to
+     * @param count  Number of times to add the hashes to the sketch
+     * @param hashes The hashes used to select the buckets to add the count in the sketch
      */
-    public void addHashed(long t, @Nonnull K... hashes) {
-        Preconditions.checkArgument(hashes.length == this.getNumRows());
+    public void addHashed(long count, @Nonnull K... hashes) {
+        Preconditions.checkArgument(hashes.length == this.getNumRows(),
+                "The number of hashes has to be of the same size than the number of columns in the sketch");
 
         int numRows = getNumRows();
         int numCols = getNumCols();
@@ -66,18 +74,27 @@ public class CountMinSketch<K extends Divisible> {
             K hash = hashes[i];
 
             Number j = hash.mod(numCols);
-            long count = this.sketch.get(i)[j.intValue()];
-            count += t;
-            this.sketch.get(i)[j.intValue()] = count;
+            long localCount = this.getSketch().get(i)[j.intValue()];
+            localCount += localCount;
+            this.getSketch().get(i)[j.intValue()] = localCount;
         }
     }
 
     //endregion
 
 
-    //region Query
+    //region estimatePointQuery
 
-    public long query(@Nonnull K... hashes) {
+    /**
+     * Queries the sketch to estimate the frequency of the given element represented by the hashes
+     *
+     * @param hashes The hashes to use
+     * @return Returns the estimation for the point query
+     */
+    public long estimatePointQuery(@Nonnull K... hashes) {
+        Preconditions.checkArgument(hashes.length == this.getSketch().size(),
+                "The number of hashes has to be of the same size than the number of columns in the sketch");
+
         long min = Long.MAX_VALUE;
 
         int numCols = getNumCols();
@@ -85,7 +102,7 @@ public class CountMinSketch<K extends Divisible> {
         for (int i = 0; i < hashes.length; i++) {
             K hash = hashes[i];
 
-            long val = this.sketch.get(i)[hash.mod(numCols)];
+            long val = this.getSketch().get(i)[hash.mod(numCols)];
 
             if (min > val) {
                 min = val;
@@ -98,10 +115,18 @@ public class CountMinSketch<K extends Divisible> {
     //endregion
 
 
+    //region
+
+
+
+    //endregion
+
+
+
     //region Getters and Setters
 
     protected int getNumRows() {
-        return sketch.size();
+        return getSketch().size();
     }
 
     protected void setNumRows(int numRows) {
@@ -109,11 +134,19 @@ public class CountMinSketch<K extends Divisible> {
     }
 
     protected int getNumCols() {
-        return sketch.get(0).length;
+        return getSketch().get(0).length;
     }
 
     protected void setNumCols(int numCols) {
 
+    }
+
+    protected ArrayList<long[]> getSketch() {
+        return sketch;
+    }
+
+    protected void setSketch(ArrayList<long[]> sketch) {
+        this.sketch = sketch;
     }
 
     //endregion
