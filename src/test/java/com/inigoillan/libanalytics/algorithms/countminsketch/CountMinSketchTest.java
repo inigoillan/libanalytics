@@ -1,14 +1,10 @@
 package com.inigoillan.libanalytics.algorithms.countminsketch;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Iterables;
-import com.inigoillan.libanalytics.algorithms.hash.Divisible;
-import com.inigoillan.libanalytics.algorithms.hash.Hash32Bits;
+import com.inigoillan.libanalytics.hash.Divisible;
+import com.inigoillan.libanalytics.hash.Hash32Bits;
 import org.junit.Test;
 
-import javax.annotation.Nullable;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 

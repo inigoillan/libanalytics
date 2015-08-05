@@ -1,4 +1,4 @@
-package com.inigoillan.libanalytics.algorithms.hash;
+package com.inigoillan.libanalytics.hash;
 
 import org.junit.Test;
 

@@ -1,6 +1,6 @@
 package com.inigoillan.libanalytics.algorithms.minhash;
 
-import com.inigoillan.libanalytics.algorithms.hash.Hash32Bits;
+import com.inigoillan.libanalytics.hash.Hash32Bits;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

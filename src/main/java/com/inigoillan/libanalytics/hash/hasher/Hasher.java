@@ -1,6 +1,6 @@
-package com.inigoillan.libanalytics.algorithms.hash.hasher;
+package com.inigoillan.libanalytics.hash.hasher;
 
-import com.inigoillan.libanalytics.algorithms.hash.Hash;
+import com.inigoillan.libanalytics.hash.Hash;
 
 import javax.annotation.Nonnull;
 

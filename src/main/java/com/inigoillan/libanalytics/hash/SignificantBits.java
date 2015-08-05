@@ -1,4 +1,4 @@
-package com.inigoillan.libanalytics.algorithms.hash;
+package com.inigoillan.libanalytics.hash;
 
 /**
  * @author <a href="mailto:inigo.illan@gmail.com">Inigo Illan</a>

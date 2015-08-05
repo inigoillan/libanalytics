@@ -2,8 +2,8 @@ package com.inigoillan.libanalytics.algorithms.countminsketch;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import com.inigoillan.libanalytics.algorithms.hash.Divisible;
-import com.inigoillan.libanalytics.algorithms.hash.SignificantBits;
+import com.inigoillan.libanalytics.hash.Divisible;
+import com.inigoillan.libanalytics.hash.SignificantBits;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;

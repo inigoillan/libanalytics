@@ -3,7 +3,7 @@ package com.inigoillan.libanalytics.algorithms.oddsketch;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.inigoillan.libanalytics.algorithms.Mergeable;
-import com.inigoillan.libanalytics.algorithms.hash.Divisible;
+import com.inigoillan.libanalytics.hash.Divisible;
 import org.apache.log4j.Logger;
 
 import javax.annotation.Nonnull;
