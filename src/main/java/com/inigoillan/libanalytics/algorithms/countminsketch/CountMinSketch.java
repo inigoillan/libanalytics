@@ -15,7 +15,7 @@ import java.util.Arrays;
  * <p>
  * For details, please refer to the <a href="https://7797b024-a-62cb3a1a-s-sites.googlegroups.com/site/countminsketch/cm-latin.pdf">Count-Min Sketch paper</a>
  *
- * @param <K> The type of {@link SignificantBits} elements this sketch accepts
+ * @param <K> The type of {@link Divisible} elements this sketch accepts
  * @author <a href="mailto:inigo.illan@gmail.com">Inigo Illan</a>
  * @since 1.0
  */
@@ -129,16 +129,8 @@ public class CountMinSketch<K extends Divisible> {
         return getSketch().size();
     }
 
-    protected void setNumRows(int numRows) {
-
-    }
-
     protected int getNumCols() {
         return getSketch().get(0).length;
-    }
-
-    protected void setNumCols(int numCols) {
-
     }
 
     protected ArrayList<long[]> getSketch() {
