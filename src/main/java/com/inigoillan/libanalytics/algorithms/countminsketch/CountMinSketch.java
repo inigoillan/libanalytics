@@ -77,8 +77,22 @@ public class CountMinSketch<K extends Divisible> {
 
     //region Query
 
-    public long query(@Nonnull K... hash) {
-        return 0;
+    public long query(@Nonnull K... hashes) {
+        long min = Long.MAX_VALUE;
+
+        int numCols = getNumCols();
+
+        for (int i = 0; i < hashes.length; i++) {
+            K hash = hashes[i];
+
+            long val = this.sketch.get(i)[hash.mod(numCols)];
+
+            if (min > val) {
+                min = val;
+            }
+        }
+
+        return min;
     }
 
     //endregion
