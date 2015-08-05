@@ -75,7 +75,7 @@ public class CountMinSketch<K extends Divisible> {
 
             Number j = hash.mod(numCols);
             long localCount = this.getSketch().get(i)[j.intValue()];
-            localCount += localCount;
+            localCount += count;
             this.getSketch().get(i)[j.intValue()] = localCount;
         }
     }
