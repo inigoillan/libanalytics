@@ -94,7 +94,7 @@ public class MinHash<K extends Comparable> implements Mergeable<MinHash<K>> {
     }
 
     private void removeExtra() {
-        for (int i = 0; i < (getTreeSet().size() - getMaxSize()); i++) {
+        while (getTreeSet().size() > getMaxSize()) {
             getTreeSet().pollLast();
         }
     }

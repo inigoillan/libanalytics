@@ -79,12 +79,45 @@ public class MinHashTest {
     //endregion
 
 
+    //region Merge tests
+
+    @Test
+    public void Merge_GivenTwoMinHash_ReturnCorrectMinHash() {
+        // Arrange
+        MinHash<Comparable> minHash1 = buildMinHash(5, new int[]{1, 2, 3, 9, 10});
+        MinHash<Comparable> minHash2 = buildMinHash(5, new int[]{4, 5, 6, 7, 8});
+
+        // Act
+        MinHash<Comparable> result = minHash1.merge(minHash2);
+
+        // Assert
+        MinHash<Comparable> expected = buildMinHash(5, new int[]{1, 2, 3, 4, 5});
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void Merge_GivenDifferentSizedMinHashes_ReturnCorrectMinHash() {
+        // Arrange
+        MinHash<Comparable> minHash1 = buildMinHash(5, new int[]{1, 2, 3, 9, 10});
+        MinHash<Comparable> minHash2 = buildMinHash(10, new int[]{4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14});
+
+        // Act
+        MinHash<Comparable> result = minHash1.merge(minHash2);
+
+        // Assert
+        MinHash<Comparable> expected = buildMinHash(5, new int[]{1, 2, 3, 4, 5});
+        assertEquals(expected, result);
+    }
+
+    //endregion
+
+
     //region Helper methods
 
     private MinHash<Comparable> buildMinHash(int size, int[] hashes) {
         MinHash<Comparable> minHash = new MinHash<>(size);
 
-        for(int i = 0; i < hashes.length; i++) {
+        for (int i = 0; i < hashes.length; i++) {
             minHash.addHashed(hash(hashes[i]));
         }
 
