@@ -142,7 +142,7 @@ public class MinHash<K extends Comparable> implements Mergeable<MinHash<K>> {
         Preconditions.checkArgument(Iterables.size(hashes) > 0);
 
         if (Iterables.any(hashes, SIZE_NOT_ZERO)) {
-            return 0;
+            return 0.0f;
         }
 
         TreeSet<T> all = new TreeSet<T>();

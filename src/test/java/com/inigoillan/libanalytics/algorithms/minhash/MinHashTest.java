@@ -1,5 +1,6 @@
 package com.inigoillan.libanalytics.algorithms.minhash;
 
+import com.inigoillan.libanalytics.hash.Divisible;
 import com.inigoillan.libanalytics.hash.Hash32Bits;
 import org.junit.Test;
 
@@ -76,8 +77,36 @@ public class MinHashTest {
         assertEquals(0.5f, result, 0.0f);
     }
 
-    //endregion
+    @Test
+    public void EstimateJaccardIndex_GivenThreeMinHash_ReturnRepeatingPointThree() throws Exception {
+        // Arrangee
+        MinHash<Comparable> minHash1 = buildMinHash(9, new int[]{1, 2, 3, 4, 11, 12, 13, 14, 15});
+        MinHash<Comparable> minHash2 = buildMinHash(9, new int[]{1, 2, 3, 5, 15, 16, 17, 18, 19});
+        MinHash<Comparable> minHash3 = buildMinHash(9, new int[]{1, 2, 3, 6, 17, 18, 19, 20, 21});
 
+        // Act
+        float result = MinHash.estimateJaccardIndex(minHash1, minHash2, minHash3);
+
+        // Assert
+        assertEquals(3.0f / 9.0f, result, 0.0f);
+    }
+
+    @Test
+    public void EstimateJaccardIndex_GivenThreeMinHashOneIsZero_ReturnZero() throws Exception {
+        // Arrangee
+        MinHash<Comparable> minHash1 = buildMinHash(9, new int[]{1, 2, 3, 4, 11, 12, 13, 14, 15});
+        MinHash<Comparable> minHash2 = buildMinHash(9, new int[]{1, 2, 3, 5, 15, 16, 17, 18, 19});
+        MinHash<Comparable> minHash3 = buildMinHash(9, new int[0]);
+
+        // Act
+        float result = MinHash.estimateJaccardIndex(minHash1, minHash2, minHash3);
+
+        // Assert
+        assertEquals(0.0f, result, 0.0f);
+    }
+
+
+    //endregion
 
     //region Merge tests
 
@@ -94,6 +123,7 @@ public class MinHashTest {
         MinHash<Comparable> expected = buildMinHash(5, new int[]{1, 2, 3, 4, 5});
         assertEquals(expected, result);
     }
+
 
     @Test
     public void Merge_GivenDifferentSizedMinHashes_ReturnCorrectMinHash() {
