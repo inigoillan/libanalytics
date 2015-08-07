@@ -1,8 +1,10 @@
 package com.inigoillan.libanalytics.hash;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnegative;
+import java.util.Objects;
 
 /**
  * Represents a hashed element into a 32 bits key
@@ -48,6 +50,29 @@ public class Hash32Bits implements Hash, Comparable<Hash32Bits> {
         return 32;
     }
 
+
+    //region Equals, HashCode, ToString and CompareTo
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Hash32Bits)) {
+            return false;
+        }
+
+        if (this == o) {
+            return true;
+        }
+
+        Hash32Bits other = (Hash32Bits) o;
+
+        return this.hash == other.hash;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.hash);
+    }
+
     @Override
     public String toString() {
         return Integer.toString(hash);
@@ -57,4 +82,6 @@ public class Hash32Bits implements Hash, Comparable<Hash32Bits> {
     public int compareTo(Hash32Bits hash32Bits) {
         return hash32Bits.hash == this.hash ? 0 : this.hash - hash32Bits.hash;
     }
+
+    //endregion
 }
