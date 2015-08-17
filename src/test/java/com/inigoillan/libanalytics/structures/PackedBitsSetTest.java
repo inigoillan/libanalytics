@@ -33,8 +33,7 @@ public class PackedBitsSetTest {
         int value = 1;
 
         // Act
-        set.setIthBits(32, value);
-        int result = set.getIthBits(32);
+        int result = setAndGetIthBits(set, 32, value);
 
         // Assert
         assertEquals(value, result);
@@ -43,23 +42,21 @@ public class PackedBitsSetTest {
     @Test
     public void GetIthBits_20BitSize128SetSizeAndPosition63_ReturnsValueAfterBeingSet() {
         // Arrange
-        PackedBitsSet set = new PackedBitsSet(20, 128);
-        int value = (int) (Math.pow(2, 20) - 1.0);
+        PackedBitsSet set = new PackedBitsSet(20, 10);
+        int value = (1 << 20) - 19;
 
         // Act
-        set.setIthBits(62, value);
-        int result = set.getIthBits(32);
+        int result = setAndGetIthBits(set, 3, value);
 
         // Assert
         assertEquals(value, result);
     }
 
-
     @Test
     public void GetIthBits_RandomInsertions_ReturnsCorrectValues() {
         // Arrange
-        int setSize = 2;
-        int bits = 3;
+        int setSize = 128;
+        int bits = 10;
         int mask = (int) Math.pow(2, bits) - 1;
 
         PackedBitsSet set = new PackedBitsSet(bits, setSize);
@@ -74,11 +71,19 @@ public class PackedBitsSetTest {
             insertions.add(i, value);
         }
 
+        System.out.println(set);
         // Assert
         for (int i = 0; i < setSize; i++) {
             int result = set.getIthBits(i);
-            assertEquals((int) insertions.get(i), result);
+            assertEquals(String.format("Expected and got:\n%s\n%s", Integer.toBinaryString(insertions.get(i)), Integer.toBinaryString(result) ), (int) insertions.get(i), result);
         }
+    }
+
+
+    private int setAndGetIthBits(PackedBitsSet set, int position, int value) {
+        set.setIthBits(position, value);
+        System.out.println(set);
+        return set.getIthBits(position);
     }
 
 
