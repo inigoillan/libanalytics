@@ -1,10 +1,9 @@
-package com.inigoillan.libanalytics.structures;
+package com.inigoillan.libanalytics.collections;
 
 import com.google.common.collect.Lists;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import static org.junit.Assert.*;

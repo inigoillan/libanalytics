@@ -1,4 +1,4 @@
-package com.inigoillan.libanalytics.structures;
+package com.inigoillan.libanalytics.collections;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
