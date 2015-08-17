@@ -1,13 +1,9 @@
 package com.inigoillan.libanalytics.structures;
 
-import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
-import sun.misc.Unsafe;
 
 import javax.annotation.Nonnegative;
-import java.nio.ByteBuffer;
-import java.nio.LongBuffer;
 
 /**
  *
@@ -19,6 +15,8 @@ public class PackedBitsSet {
     private final int setSize;
 
     private final long[] set;
+
+    //region Ctors
 
     public PackedBitsSet(@Nonnegative int bitSize, @Nonnegative int setSize) {
         Preconditions.checkArgument(bitSize > 0, "Bit size parameter should be a positive non-zero value");
@@ -32,6 +30,11 @@ public class PackedBitsSet {
         set = new long[size];
     }
 
+    //endregion
+
+
+    //region SetIthBits
+
     public void setIthBits(@Nonnegative int position, int value) {
         Preconditions.checkArgument((1 << bitSize) > value, "The value can't be represented by the bit size");
 
@@ -41,7 +44,7 @@ public class PackedBitsSet {
         if (bucket == bucketLastBit) {
             int offset = (position * bitSize) % getLongSizeInBits();
 
-            setIthBitInBucket(bucket, offset, value);
+            setIthBitsInBucket(bucket, offset, value);
         } else {
             int offset = (position * bitSize) % getLongSizeInBits();
             int remanent = getLongSizeInBits() - offset;
@@ -49,12 +52,12 @@ public class PackedBitsSet {
 
             int firstValue = value >> remanent;
             int secondValue = value & ((1 << remanent) - 1);
-            setIthBitInBucket(bucket, offset, secondValue);
-            setIthBitInBucket(bucketLastBit, 0, firstValue);
+            setIthBitsInBucket(bucket, offset, secondValue);
+            setIthBitsInBucket(bucketLastBit, 0, firstValue);
         }
     }
 
-    private void setIthBitInBucket(@Nonnegative int bucket, @Nonnegative int offset, int value) {
+    private void setIthBitsInBucket(@Nonnegative int bucket, @Nonnegative int offset, int value) {
         long longValue = value;
         long bucketValue = set[bucket];
 
@@ -67,6 +70,11 @@ public class PackedBitsSet {
 
         set[bucket] = bucketValue;
     }
+
+    //endregion
+
+
+    //region GetIthBits
 
     public int getIthBits(@Nonnegative int position) {
         Preconditions.checkArgument(this.setSize >= position, "Bounds check exception");
@@ -99,6 +107,11 @@ public class PackedBitsSet {
         return (int) result;
     }
 
+    //endregion
+
+
+    //region Helper methods
+
     private int getBucket(int position) {
         return (int) Math.floor((double) position * bitSize / getLongSizeInBits());
     }
@@ -110,6 +123,11 @@ public class PackedBitsSet {
     private int getLongSizeInBits() {
         return 8 * Long.BYTES;
     }
+
+    //endregion
+
+
+    //region toString, hashCode, equals methods
 
     @Override
     public String toString() {
@@ -137,4 +155,6 @@ public class PackedBitsSet {
         builder.append(" }");
         return builder.toString();
     }
+
+    //endregion
 }
