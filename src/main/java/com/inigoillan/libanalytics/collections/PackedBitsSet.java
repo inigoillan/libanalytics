@@ -6,7 +6,6 @@ import com.google.common.base.Preconditions;
 import javax.annotation.Nonnegative;
 
 /**
- *
  * @author <a href="mailto:inigo.illan@gmail.com">Inigo Illan</a>
  * @since 1.0
  */
@@ -123,6 +122,19 @@ public class PackedBitsSet {
     private int getLongSizeInBits() {
         return 8 * Long.BYTES;
     }
+
+    //endregion
+
+    //region Getters and setters
+
+    public int getBitSize() {
+        return bitSize;
+    }
+
+    public int getSetSize() {
+        return setSize;
+    }
+
 
     //endregion
 
