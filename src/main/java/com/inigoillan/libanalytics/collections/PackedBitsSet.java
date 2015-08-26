@@ -168,5 +168,22 @@ public class PackedBitsSet {
         return builder.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof PackedBitsSet)) {
+            return false;
+        }
+
+        if (o == this) {
+            return true;
+        }
+
+        PackedBitsSet other = (PackedBitsSet) o;
+
+        return other.getBitSize() == this.getBitSize()
+                && other.getSetSize() == this.getSetSize()
+                && this.set.equals(other.set);
+    }
+
     //endregion
 }
